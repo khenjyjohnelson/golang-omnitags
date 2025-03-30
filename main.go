@@ -3,9 +3,7 @@ package main
 
 import (
 	"fmt"
-	"encoding/json"
-	"os"
-	
+
 	// "log"
 	// "net/http"
 	// "time"
@@ -13,8 +11,7 @@ import (
 	_ "time/tzdata"
 
 	// "github.com/gin-gonic/gin"
-	// "github.com/khenjyjohnelson/golang-omnitags/config"
-	"github.com/khenjyjohnelson/golang-omnitags/omnitags"
+	"github.com/khenjyjohnelson/golang-omnitags/config"
 	// "github.com/khenjyjohnelson/golang-omnitags/endpoint"
 	// "github.com/khenjyjohnelson/golang-omnitags/middleware"
 	// "github.com/khenjyjohnelson/golang-omnitags/model"
@@ -22,25 +19,9 @@ import (
 	// "gorm.io/gorm/logger"
 )
 
-
 func main() {
-	// Read JSON file
-	file, err := os.ReadFile("app.postman_environment.json")
-	if err != nil {
-		fmt.Println("Error reading file:", err)
-		return
-	}
-
-	// Parse JSON into a map
-	var jsonData map[string]interface{}
-	if err := json.Unmarshal(file, &jsonData); err != nil {
-		fmt.Println("Error parsing JSON:", err)
-		return
-	}
-
 	// Initialize Config and load JSON data
-	config := NewConfig()
-	config.LoadData(jsonData)
+	config := config.ReadConfig()
 
 	// Example Outputs
 	fmt.Println("Database Name:", config.GetValue("database"))
@@ -48,7 +29,6 @@ func main() {
 	fmt.Println("Upload Path for A1:", config.VUploadPath["tabel_a1"])
 	fmt.Println("Flash Message for A1:", config.Flash1Msg["tabel_a1"])
 }
-
 
 // func main() {
 // 	// Load the configuration

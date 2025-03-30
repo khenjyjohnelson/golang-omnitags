@@ -1,8 +1,9 @@
-package omnitags
+package config
 
 import (
+	"encoding/json"
 	"fmt"
-	// "os"
+	"os"
 )
 
 // Omnitags holds the application's configuration values.
@@ -22,6 +23,9 @@ type Omnitags struct {
 	V           map[int]string
 	TL          map[string]interface{}
 }
+
+// global variable to hold the configuration
+var omnitagsConfig *Omnitags
 
 // NewConfig initializes a new instance of Omnitags with empty maps
 func NewConfig() *Omnitags {
@@ -125,6 +129,36 @@ func (c *Omnitags) LoadData(data map[string]interface{}) {
 			}
 		}
 	}
+}
+
+// LoadConfig initializes the global configuration by reading the JSON file
+func ReadConfig() *Omnitags {
+	if omnitagsConfig == nil {
+		// Initialize a new Omnitags instance
+		omnitagsConfig = NewConfig()
+
+		// Hardcoded file path
+		filePath := "app.postman_environment.json"
+
+		// Read JSON file
+		file, err := os.ReadFile(filePath)
+		if err != nil {
+			fmt.Println("Error reading configuration file:", err)
+			return omnitagsConfig
+		}
+
+		// Parse JSON into a map
+		var jsonData map[string]interface{}
+		if err := json.Unmarshal(file, &jsonData); err != nil {
+			fmt.Println("Error parsing configuration file:", err)
+			return omnitagsConfig
+		}
+
+		// Load the parsed data into the Omnitags struct
+		omnitagsConfig.LoadData(jsonData)
+	}
+
+	return omnitagsConfig
 }
 
 // GetValue fetches a value dynamically
