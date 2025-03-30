@@ -1,13 +1,12 @@
-package main
+package omnitags
 
 import (
-	"encoding/json"
 	"fmt"
-	"os"
+	// "os"
 )
 
-// Config stores all mappings dynamically
-type Config struct {
+// Omnitags holds the application's configuration values.
+type Omnitags struct {
 	Aliases     map[string]string
 	Reverse     map[string]string
 	VInput      map[string]string
@@ -24,9 +23,9 @@ type Config struct {
 	TL          map[string]interface{}
 }
 
-// NewConfig initializes a new instance of Config with empty maps
-func NewConfig() *Config {
-	c := &Config{
+// NewConfig initializes a new instance of Omnitags with empty maps
+func NewConfig() *Omnitags {
+	c := &Omnitags{
 		Aliases:     make(map[string]string),
 		Reverse:     make(map[string]string),
 		VInput:      make(map[string]string),
@@ -68,7 +67,7 @@ func NewConfig() *Config {
 }
 
 // LoadData extracts key-value pairs from JSON and initializes mappings
-func (c *Config) LoadData(data map[string]interface{}) {
+func (c *Omnitags) LoadData(data map[string]interface{}) {
 	if values, ok := data["values"].([]interface{}); ok {
 		for _, item := range values {
 			if obj, isObject := item.(map[string]interface{}); isObject {
@@ -129,7 +128,7 @@ func (c *Config) LoadData(data map[string]interface{}) {
 }
 
 // GetValue fetches a value dynamically
-func (c *Config) GetValue(field string) string {
+func (c *Omnitags) GetValue(field string) string {
 	if value, exists := c.Aliases[field]; exists {
 		return value
 	}
