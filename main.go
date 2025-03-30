@@ -24,10 +24,10 @@ func main() {
 	config := config.ReadConfig()
 
 	// Example Outputs
-	fmt.Println("Database Name:", config.GetValue("database"))
-	fmt.Println("Table A1 Name:", config.GetValue("tabel_a1"))
+	fmt.Println("Database Name:", config.Aliases["database"])
+	fmt.Println("Table A1 Name:", config.Titles["tabel_a1_alias_v2"])
 	fmt.Println("Upload Path for A1:", config.VUploadPath["tabel_a1"])
-	fmt.Println("Flash Message for A1:", config.Flash1Msg["tabel_a1"])
+	fmt.Println("Flash Message for A1:", config.Views["tabel_a1_daftar"])
 }
 
 // func main() {
